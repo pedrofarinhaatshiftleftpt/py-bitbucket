@@ -79,7 +79,7 @@ class BitBucket(object):
 
     request = requests.post(request_token_url(), auth=oauth, timeout=self._timeout)
     if request.status_code == 200:
-      credentials = parse_qs(request.content)
+      credentials = parse_qs(request.content.decode('ascii'))
       token = (credentials.get('oauth_token')[0], credentials.get('oauth_token_secret')[0])
       return (True, token, None)
 
@@ -120,7 +120,7 @@ class BitBucket(object):
       return (False, None, 'Exception when contacting BitBucket: %s' % rex.message)
 
     if request.status_code == 200:
-      credentials = parse_qs(request.content)
+      credentials = parse_qs(request.content.decode('ascii'))
       token = (credentials.get('oauth_token')[0], credentials.get('oauth_token_secret')[0])
       return (True, token, None)
 
