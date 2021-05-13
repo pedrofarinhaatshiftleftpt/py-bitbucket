@@ -1,0 +1,53 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+      - name: Kiuwan Baseline Analysis
+        uses: lsacera/KiuwanBaselineAction@v0.4
+        with:
+            # Base URL of the kiuwan server. Empty to go to kiuwan.com SaaS version. Example: https://myserver.com
+            kiuwanbaseurl: https://www.kiuwan.com
+            # Name of Kiuwan project
+            project:  ${{ github.repository }}
+            # Label of the analysis
+            label: ${{ github.run_number }}
+            # Username for kiuwan platform
+            userid: foo
+            # Password for kiuwan platform
+            password: bar
+            # Database type files in the project, if any. Can be one or more of [none, transacsql, plsql, informix]
+            databasetype: none
+            # Rest of parameters to use in the Kiuwan Local Analyzer. Please review documentation to see format at https://www.kiuwan.com/docs/display/K5/Kiuwan+Local+Analyzer+CLI+-+Command+Line+Interface
+            advancedparams: -wr 
